@@ -1,4 +1,4 @@
-package skven.com.moviesvisittracker.ui.slideshow;
+package skven.com.moviesvisittracker.ui.addTheatre;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;

@@ -19,9 +19,9 @@
 
     <fragment
         android:id="@+id/nav_slideshow"
-        android:name="skven.com.moviesvisittracker.ui.slideshow.SlideshowFragment"
+        android:name="skven.com.moviesvisittracker.ui.addTheatre.AddTheatreFragment"
         android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_slideshow" />
+        tools:layout="@layout/fragment_addTheatre" />
 
     <fragment
         android:id="@+id/nav_tools"

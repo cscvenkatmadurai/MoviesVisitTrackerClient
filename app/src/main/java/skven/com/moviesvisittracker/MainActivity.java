@@ -45,48 +45,9 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
 
 
-    private RecyclerView recyclerView;
-    private MovieVisitMiniAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ConnectionManager.volleyStringRequest(this, false, null, "https://kiq5henquk.execute-api.us-east-1.amazonaws.com/test/movievisit?userName=skven", new VolleyResponse() {
-            @Override
-            public void onResponse(String _response) {
-
-                /**
-                 * Handle Response
-                 */
-                Log.i(TAG, "response \n" + _response );
-
-
-                try {
-                    MovieVisitMini[] parse = GloxeyJsonParser.getInstance().parse(_response, MovieVisitMini[].class);
-                    Log.i(TAG+"parse", parse[0].toString());
-                    mAdapter.setMoviesArray(parse);
-                    mAdapter.notifyDataSetChanged();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-                /**
-                 * handle Volley Error
-                 */
-                Log.e(TAG, "exception", error);
-            }
-
-            @Override
-            public void isNetwork(boolean connected) {
-                Log.i(TAG, "isNetworkConnected" + connected);
-                /**
-                 * True if internet is connected otherwise false
-                 */
-            }
-        });
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -110,14 +71,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
 
 
-
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-
-        mAdapter = new MovieVisitMiniAdapter();
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(mAdapter);
     }
 
     @Override

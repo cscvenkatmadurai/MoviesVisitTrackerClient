@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/theatreName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/theatre_name"
+        android:textSize="20sp"
+        tools:layout_editor_absoluteX="19dp"
+        tools:layout_editor_absoluteY="86dp" />
+
+    <EditText
+        android:id="@+id/theatreNameEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_theatre_name"
+        android:textAlignment="center"
+
+        android:textSize="20sp"
+        />
+
+
+    <TextView
+        android:id="@+id/theatreLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/theatre_location"
+        android:textSize="20sp"
+         />
+
+    <EditText
+        android:id="@+id/theatreCityEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_theatre_location"
+        android:textAlignment="center"
+        android:textSize="20sp"
+         />
+
+
+    <Button
+        android:id="@+id/addTheatreButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/submit"
+        android:onClick="submit"
+        />
+
+
+</LinearLayout>
