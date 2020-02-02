@@ -12,21 +12,21 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
-        android:name="skven.com.moviesvisittracker.ui.gallery.GalleryFragment"
+        android:id="@+id/nav_add_movie"
+        android:name="skven.com.moviesvisittracker.ui.addMovie.AddMovieFragment"
         android:label="@string/menu_gallery"
-        tools:layout="@layout/fragment_gallery" />
+        tools:layout="@layout/fragment_add_movie" />
 
     <fragment
         android:id="@+id/nav_slideshow"
         android:name="skven.com.moviesvisittracker.ui.addTheatre.AddTheatreFragment"
         android:label="@string/menu_slideshow"
-        tools:layout="@layout/fragment_addTheatre" />
+        tools:layout="@layout/fragment_add_theatre" />
 
     <fragment
-        android:id="@+id/nav_tools"
+        android:id="@+id/nav_movie_visit"
         android:name="skven.com.moviesvisittracker.ui.tools.ToolsFragment"
-        android:label="@string/menu_tools"
+        android:label="@string/menu_movie_visit"
         tools:layout="@layout/fragment_tools" />
 
     <fragment

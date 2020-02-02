@@ -2,13 +2,6 @@ package skven.com.moviesvisittracker;
 
 import android.os.Bundle;
 
-import com.android.volley.VolleyError;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import android.util.Log;
-import android.view.View;
-
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -22,20 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import io.gloxey.gnm.interfaces.VolleyResponse;
-import io.gloxey.gnm.managers.ConnectionManager;
-import io.gloxey.gnm.parser.GloxeyJsonParser;
-import skven.com.moviesvisittracker.movieVisit.MovieVisitMini;
-import skven.com.moviesvisittracker.movieVisit.MovieVisitMiniAdapter;
-
-
 import android.view.Menu;
-import android.widget.TextView;
-
-import java.util.ArrayList;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -62,8 +42,8 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,
-                R.id.nav_tools, R.id.nav_share, R.id.nav_send)
+                R.id.nav_home, R.id.nav_movie_visit, R.id.nav_add_movie, R.id.nav_slideshow,
+                 R.id.nav_share, R.id.nav_send)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
