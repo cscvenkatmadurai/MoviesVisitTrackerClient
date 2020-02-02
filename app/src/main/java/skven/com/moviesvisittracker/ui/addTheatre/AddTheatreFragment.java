@@ -136,7 +136,6 @@ public class AddTheatreFragment extends Fragment {
             @Override
             public void onResponse(String _response) {
                 try {
-                    Toast.makeText(getContext(), _response, Toast.LENGTH_LONG).show();
                     TheatreDTO[] theatreDTOS = GloxeyJsonParser.getInstance().parse(_response, TheatreDTO[].class);
                     theatreAdapter.setTheatresArray(theatreDTOS);
                     theatreAdapter.notifyDataSetChanged();
