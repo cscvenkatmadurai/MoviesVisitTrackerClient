@@ -25,7 +25,7 @@
 
     <fragment
         android:id="@+id/nav_movie_visit"
-        android:name="skven.com.moviesvisittracker.ui.tools.ToolsFragment"
+        android:name="skven.com.moviesvisittracker.ui.addMovieVisit.AddMovieVisitFragment"
         android:label="@string/menu_movie_visit"
         tools:layout="@layout/fragment_tools" />
 

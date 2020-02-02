@@ -1,4 +1,4 @@
-package skven.com.moviesvisittracker.ui.tools;
+package skven.com.moviesvisittracker.ui.addMovieVisit;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,7 +13,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import skven.com.moviesvisittracker.R;
 
-public class ToolsFragment extends Fragment {
+public class AddMovieVisitFragment extends Fragment {
 
     private ToolsViewModel toolsViewModel;
 
