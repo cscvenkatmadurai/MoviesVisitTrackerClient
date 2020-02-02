@@ -19,21 +19,28 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
+
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import io.gloxey.gnm.interfaces.VolleyResponse;
 import io.gloxey.gnm.managers.ConnectionManager;
+import io.gloxey.gnm.parser.GloxeyJsonParser;
 import skven.com.moviesvisittracker.R;
+import skven.com.moviesvisittracker.getTheatre.TheatreAdapter;
+import skven.com.moviesvisittracker.getTheatre.TheatreDTO;
+import skven.com.moviesvisittracker.movieVisit.MovieVisitMini;
 
 public class AddTheatreFragment extends Fragment {
     private static final String TAG = "AddTheatreFragment";
 
     private EditText theatreName;
     private EditText theatreLocation;
-    private Button addTheatreButton;
+
+    private RecyclerView recyclerView;
+    private TheatreAdapter theatreAdapter;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -41,7 +48,12 @@ public class AddTheatreFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_add_theatre, container, false);
         theatreName = root.findViewById(R.id.theatreNameEditText);
         theatreLocation = root.findViewById(R.id.theatreCityEditText);
-        addTheatreButton = root.findViewById(R.id.addTheatreButton);
+        Button addTheatreButton = root.findViewById(R.id.addTheatreButton);
+
+
+
+
+
         addTheatreButton.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
@@ -76,6 +88,7 @@ public class AddTheatreFragment extends Fragment {
                            Toast.makeText(getContext(), "Theatre Added successfully",  Toast.LENGTH_LONG).show();
                            Log.i(TAG, "Response is " + _response);
 
+
                        }
 
                        @Override
@@ -106,6 +119,49 @@ public class AddTheatreFragment extends Fragment {
 
            }
        });
+
+        recyclerView = (RecyclerView) root.findViewById(R.id.theatreListRecyclerView);
+        theatreAdapter = new TheatreAdapter();
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(theatreAdapter);
+
+
+
+
+
+        ConnectionManager.volleyStringRequest(getContext(), true, null, "https://kiq5henquk.execute-api.us-east-1.amazonaws.com/test/theatre", new VolleyResponse() {
+
+            @Override
+            public void onResponse(String _response) {
+                try {
+                    Toast.makeText(getContext(), _response, Toast.LENGTH_LONG).show();
+                    TheatreDTO[] theatreDTOS = GloxeyJsonParser.getInstance().parse(_response, TheatreDTO[].class);
+                    theatreAdapter.setTheatresArray(theatreDTOS);
+                    theatreAdapter.notifyDataSetChanged();
+                }catch (Exception e) {
+                    Log.e(TAG, "onResponse: ", e );
+                }
+
+            }
+
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG,"exception in getting theatre list", error);
+
+            }
+
+            @Override
+            public void isNetwork(boolean connected) {
+
+            }
+        });
+
+
+
+
         return root;
     }
 }
+

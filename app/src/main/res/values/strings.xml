@@ -15,7 +15,7 @@
     <string name="menu_send">Send</string>
     <string name="enter_theatre_name">Enter theatre name</string>
     <string name="enter_theatre_location">enter theatre location</string>
-    <string name="theatre_name">Theatre name</string>
-    <string name="theatre_location">theatre location</string>
+    <string name="theatre_name">Theatre name  :</string>
+    <string name="theatre_location">theatre location  :</string>
     <string name="submit">Submit</string>
 </resources>
