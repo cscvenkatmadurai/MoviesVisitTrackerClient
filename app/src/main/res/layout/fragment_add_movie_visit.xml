@@ -8,7 +8,8 @@
         android:id="@+id/edit_text_add_movie_visit_imdbId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="imdbId"/>
+        android:fontFamily="@font/roboto_mono_thin"
+        android:hint="imdbId" />
     <EditText
         android:id="@+id/edit_text_theatreId"
         android:layout_width="match_parent"
@@ -16,9 +17,11 @@
         android:hint="theatreId"/>
 
     <Button
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Select date"
+        android:textStyle="bold"
+        android:layout_gravity="center"
         android:id="@+id/button_add_date"/>
     <EditText
         android:id="@+id/edit_text_rating"
@@ -36,11 +39,14 @@
         android:hint="langauge watched"/>
 
 
-    <Button
-        android:layout_width="match_parent"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/button_add_movie_visit"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:fontFamily="@font/roboto_medium"
         android:text="Add movie visit"
-        android:id="@+id/button_add_movie_visit"/>
+        android:textStyle="bold" />
 
 
 

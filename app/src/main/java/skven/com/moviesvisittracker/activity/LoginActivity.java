@@ -14,6 +14,7 @@ import skven.com.moviesvisittracker.R;
 import skven.com.moviesvisittracker.constants.LoginConstants;
 import skven.com.moviesvisittracker.helper.SharedPreferenceHelper;
 
+
 public class LoginActivity  extends AppCompatActivity {
 
     EditText userId;

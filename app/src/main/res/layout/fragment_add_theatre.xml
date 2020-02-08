@@ -13,6 +13,8 @@
         android:text="@string/theatre_name"
         android:textSize="20sp"
         tools:layout_editor_absoluteX="19dp"
+        android:gravity="center"
+        android:layout_gravity="center"
         tools:layout_editor_absoluteY="86dp" />
 
     <EditText
@@ -21,7 +23,8 @@
         android:layout_height="wrap_content"
         android:hint="@string/enter_theatre_name"
         android:textAlignment="center"
-
+        android:gravity="center"
+        android:layout_gravity="center"
         android:textSize="20sp"
         />
 
@@ -31,6 +34,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/theatre_location"
+        android:gravity="center"
+        android:layout_gravity="center"
         android:textSize="20sp"
          />
 
@@ -40,6 +45,8 @@
         android:layout_height="wrap_content"
         android:hint="@string/enter_theatre_location"
         android:textAlignment="center"
+        android:gravity="center"
+        android:layout_gravity="center"
         android:textSize="20sp"
          />
 
@@ -49,10 +56,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/submit"
+        android:gravity="center"
+        android:layout_gravity="center"
         android:onClick="submit"
         />
 
     <androidx.recyclerview.widget.RecyclerView
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/theatreListRecyclerView"/>
