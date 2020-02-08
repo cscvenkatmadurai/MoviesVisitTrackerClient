@@ -1,4 +1,4 @@
-package skven.com.moviesvisittracker;
+package skven.com.moviesvisittracker.activity;
 
 import android.os.Bundle;
 
@@ -13,6 +13,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import skven.com.moviesvisittracker.R;
 
 
 import android.util.Log;
@@ -22,9 +23,9 @@ import android.widget.Button;
 import android.widget.EditText;
 
 
-public class MainActivity extends AppCompatActivity {
+public class HomeActivity extends AppCompatActivity {
 
-    private static final String TAG = "###MainActivity";
+    private static final String TAG = "###HomeActivity";
 
     private AppBarConfiguration mAppBarConfiguration;
     EditText userId;

@@ -27,6 +27,8 @@ import androidx.fragment.app.Fragment;
 import io.gloxey.gnm.interfaces.VolleyResponse;
 import io.gloxey.gnm.managers.ConnectionManager;
 import skven.com.moviesvisittracker.R;
+import skven.com.moviesvisittracker.constants.LoginConstants;
+import skven.com.moviesvisittracker.helper.SharedPreferenceHelper;
 
 public class AddMovieVisitFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
@@ -101,7 +103,7 @@ public class AddMovieVisitFragment extends Fragment implements DatePickerDialog.
                     final JSONObject params = new JSONObject();
                     try {
 
-                        params.put("userName", "skven");
+                        params.put("userName", SharedPreferenceHelper.getKey(getActivity(), LoginConstants.USER_ID, LoginConstants.USER_ID));
                         params.put("showTime", showTimeInMilliSeconds);
                         params.put("imdbId", imdbId.getText());
                         params.put("theatreId", theatreId.getText());
