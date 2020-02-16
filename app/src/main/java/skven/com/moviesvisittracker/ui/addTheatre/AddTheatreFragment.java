@@ -25,7 +25,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import io.gloxey.gnm.interfaces.VolleyResponse;
+import io.gloxey.gnm.interfaces.GloxeyCallback;
 import io.gloxey.gnm.managers.ConnectionManager;
 import io.gloxey.gnm.parser.GloxeyJsonParser;
 import skven.com.moviesvisittracker.R;
@@ -82,31 +82,26 @@ public class AddTheatreFragment extends Fragment {
 
 
 
-                   ConnectionManager.volleyJSONRequest(getContext(), true, null, " https://kiq5henquk.execute-api.us-east-1.amazonaws.com/test/theatre", Request.Method.POST, params , headers, new VolleyResponse() {
+                   ConnectionManager.volleyJSONRequest(getContext(), true, null, " https://kiq5henquk.execute-api.us-east-1.amazonaws.com/test/theatre", Request.Method.POST, params , headers,"add-theatre", new GloxeyCallback.JSONResponse() {
                        @Override
-                       public void onResponse(String _response) {
+                       public void onResponse(JSONObject _response, String _tag) {
                            Toast.makeText(getContext(), "Theatre Added successfully",  Toast.LENGTH_LONG).show();
                            Log.i(TAG, "Response is " + _response);
 
+                       }
+
+                       @Override
+                       public void isConnected(boolean _connected, String _tag) {
 
                        }
 
                        @Override
-                       public void onErrorResponse(VolleyError error) {
+                       public void onErrorResponse(VolleyError _error, boolean _onErrorResponse, String _tag) {
                            Toast.makeText(getContext(), "Error in adding theatre, please try again later",  Toast.LENGTH_SHORT).show();
-                           Log.e(TAG, "Exception during calling addTheatre for params" + params , error);
-
-
+                           Log.e(TAG, "Exception during calling addTheatre for params" + params , _error);
 
                        }
 
-                       @Override
-                       public void isNetwork(boolean connected) {
-
-                           /**
-                            * True if internet is connected otherwise false
-                            */
-                       }
                    });
 
 
@@ -131,10 +126,11 @@ public class AddTheatreFragment extends Fragment {
 
 
 
-        ConnectionManager.volleyStringRequest(getContext(), true, null, "https://kiq5henquk.execute-api.us-east-1.amazonaws.com/test/theatre", new VolleyResponse() {
+        ConnectionManager.volleyStringRequest(getContext(), true, null, "https://kiq5henquk.execute-api.us-east-1.amazonaws.com/test/theatre", "get-theatre",  new GloxeyCallback.StringResponse() {
 
             @Override
-            public void onResponse(String _response) {
+            public void onResponse(String _response, String _tag) {
+
                 try {
                     TheatreDTO[] theatreDTOS = GloxeyJsonParser.getInstance().parse(_response, TheatreDTO[].class);
                     theatreAdapter.setTheatresArray(theatreDTOS);
@@ -146,15 +142,16 @@ public class AddTheatreFragment extends Fragment {
             }
 
             @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e(TAG,"exception in getting theatre list", error);
+            public void isConnected(boolean _connected, String _tag) {
 
             }
 
             @Override
-            public void isNetwork(boolean connected) {
+            public void onErrorResponse(VolleyError _error, boolean _onErrorResponse, String _tag) {
+                Log.e(TAG,"exception in getting theatre list", _error);
 
             }
+
         });
 
 

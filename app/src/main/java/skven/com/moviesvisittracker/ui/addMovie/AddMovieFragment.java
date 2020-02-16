@@ -19,7 +19,7 @@ import java.util.HashMap;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import io.gloxey.gnm.interfaces.VolleyResponse;
+import io.gloxey.gnm.interfaces.GloxeyCallback;
 import io.gloxey.gnm.managers.ConnectionManager;
 import skven.com.moviesvisittracker.R;
 
@@ -54,25 +54,26 @@ public class AddMovieFragment extends Fragment {
                     HashMap<String, String> headers = new HashMap<String, String>();
                     headers.put("Content-Type", "application/json");
 
-                    ConnectionManager.volleyJSONRequest(getContext(), true, null, "https://kiq5henquk.execute-api.us-east-1.amazonaws.com/test/movie", Request.Method.POST, params , headers, new VolleyResponse() {
+                    ConnectionManager.volleyJSONRequest(getContext(), true, null, "https://kiq5henquk.execute-api.us-east-1.amazonaws.com/test/movie", Request.Method.POST, params, headers, "add-movie", new GloxeyCallback.JSONResponse() {
                         @Override
-                        public void onResponse(String _response) {
+                        public void onResponse(JSONObject _response, String _tag) {
                             Toast.makeText(getContext(), "Added Movie successfully: " + _response ,  Toast.LENGTH_LONG).show();
                             Log.i(TAG, "Response is " + _response);
 
                         }
 
                         @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(getContext(), "Error in adding theatre, please try again later",  Toast.LENGTH_SHORT).show();
-                            Log.e(TAG, "Exception during calling addTheatre for params" + params , error);
+                        public void isConnected(boolean _connected, String _tag) {
 
                         }
 
                         @Override
-                        public void isNetwork(boolean connected) {
+                        public void onErrorResponse(VolleyError _error, boolean _onErrorResponse, String _tag) {
+                            Toast.makeText(getContext(), "Error in adding  movie, please try again later",  Toast.LENGTH_SHORT).show();
+                            Log.e(TAG, "Exception during calling addTheatre for params:  " + params , _error);
 
                         }
+
                     });
 
 

@@ -24,7 +24,7 @@ import java.util.HashMap;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import io.gloxey.gnm.interfaces.VolleyResponse;
+import io.gloxey.gnm.interfaces.GloxeyCallback;
 import io.gloxey.gnm.managers.ConnectionManager;
 import skven.com.moviesvisittracker.R;
 import skven.com.moviesvisittracker.constants.LoginConstants;
@@ -118,25 +118,27 @@ public class AddMovieVisitFragment extends Fragment implements DatePickerDialog.
                     headers.put("Content-Type", "application/json");
 
 
-                    ConnectionManager.volleyJSONRequest(getContext(), true, null, "https://kiq5henquk.execute-api.us-east-1.amazonaws.com/test/movievisit", Request.Method.POST, params, headers, new VolleyResponse() {
+                    ConnectionManager.volleyJSONRequest(getContext(), true, null, "https://kiq5henquk.execute-api.us-east-1.amazonaws.com/test/movievisit", Request.Method.POST, params, headers, "add-movie-visit", new GloxeyCallback.JSONResponse() {
                         @Override
-                        public void onResponse(String _response) {
+                        public void onResponse(JSONObject _response, String _tag) {
                             Toast.makeText(getContext(), "movie visit Added successfully",  Toast.LENGTH_LONG).show();
                             Log.i(TAG, "Response is " + _response);
+
                         }
 
                         @Override
-                        public void onErrorResponse(VolleyError error) {
+                        public void isConnected(boolean _connected, String _tag) {
+
+                        }
+
+                        @Override
+                        public void onErrorResponse(VolleyError _error, boolean _onErrorResponse, String _tag) {
                             Toast.makeText(getContext(), "Error in adding  movieVisit, please try again later",  Toast.LENGTH_SHORT).show();
-                            Log.e(TAG, "Exception during calling addTheatre for params" + params , error);
+                            Log.e(TAG, "Exception during calling addTheatre for params" + params , _error);
 
                         }
-
-                        @Override
-                        public void isNetwork(boolean connected) {
-
-                        }
-                    });
+                    }
+                    );
 
                 }
 
