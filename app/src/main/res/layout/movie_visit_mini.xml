@@ -25,14 +25,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/title"
-         />
+        android:layout_marginTop="26dp" />
+
+    <TextView
+        android:id="@+id/watchedDate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/rating"
+        android:layout_marginTop="7dp" />
 
     <TextView
         android:id="@+id/rating"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_below="@id/rating"
+        android:layout_alignEnd="@id/title"
+
          />
 
     <ImageView
@@ -42,6 +50,18 @@
         android:id="@+id/movieImage"
         android:layout_below="@id/relDate"/>
 
+    <TextView
+        android:id="@+id/watchedLang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/movieImage"/>
+
+    <TextView
+        android:id="@+id/watchedLocation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/watchedLang"
+        android:layout_marginTop="20dp" />
 
 
 </RelativeLayout>

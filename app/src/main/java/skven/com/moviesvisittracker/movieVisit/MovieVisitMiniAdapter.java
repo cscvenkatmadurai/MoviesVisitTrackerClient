@@ -10,6 +10,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,10 +20,13 @@ import skven.com.moviesvisittracker.R;
 
 public class MovieVisitMiniAdapter extends RecyclerView.Adapter<MovieVisitMiniAdapter.MyViewHolder> {
 
+    static DateFormat df = new SimpleDateFormat("dd MMM yyyy");
+
+
     private MovieVisitMini[] moviesArray;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView title, rating, relDate;
+        TextView title, rating, relDate, watchedDate, watchedLang, watchedLocation;
         public ImageView movieImage;
 
         public MyViewHolder(View view) {
@@ -29,6 +35,9 @@ public class MovieVisitMiniAdapter extends RecyclerView.Adapter<MovieVisitMiniAd
             relDate = (TextView) view.findViewById(R.id.relDate);
             rating = (TextView) view.findViewById(R.id.rating);
             movieImage = (ImageView) view.findViewById(R.id.movieImage);
+            watchedDate = view.findViewById(R.id.watchedDate);
+            watchedLang = view.findViewById(R.id.watchedLang);
+            watchedLocation = view.findViewById(R.id.watchedLocation);
         }
     }
 
@@ -53,11 +62,15 @@ public class MovieVisitMiniAdapter extends RecyclerView.Adapter<MovieVisitMiniAd
     public void onBindViewHolder(MyViewHolder holder, int position) {
         MovieVisitMini movie = moviesArray[position];
         holder.title.setText(movie.getMovieName());
-        holder.relDate.setText(movie.getReleaseDate());
+        holder.relDate.setText("Release Date: " + movie.getReleaseDate());
         holder.rating.setText(Double.toString(movie.getRating()) );
         Picasso.get().load(movie.getImageUrl()).
                 resize(300, 400)
                 .into(holder.movieImage);
+        holder.watchedLocation.setText(movie.getTheatreName() + "," + movie.getTheatreLocation());
+        holder.watchedLang.setText(movie.getWatchedLang());
+        Date watchedDate = new Date(movie.getWatchedDateInMillisecond());
+        holder.watchedDate.setText(df.format(watchedDate));
 
     }
 
