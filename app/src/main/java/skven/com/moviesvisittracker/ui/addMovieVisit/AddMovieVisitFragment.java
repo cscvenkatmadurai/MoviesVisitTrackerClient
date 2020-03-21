@@ -160,7 +160,7 @@ public class AddMovieVisitFragment extends Fragment implements DatePickerDialog.
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         Calendar c = Calendar.getInstance();
-        c.set(year, monthOfYear, year);
+        c.set(year, monthOfYear, dayOfMonth);
         showTimeInMilliSeconds = c.getTimeInMillis();
         Toast.makeText(getContext(), showTimeInMilliSeconds +"", Toast.LENGTH_LONG).show();
 

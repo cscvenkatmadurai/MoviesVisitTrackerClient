@@ -55,7 +55,9 @@ public class MovieVisitMiniAdapter extends RecyclerView.Adapter<MovieVisitMiniAd
         holder.title.setText(movie.getMovieName());
         holder.relDate.setText(movie.getReleaseDate());
         holder.rating.setText(Double.toString(movie.getRating()) );
-        Picasso.get().load(movie.getImageUrl()).into(holder.movieImage);
+        Picasso.get().load(movie.getImageUrl()).
+                resize(300, 400)
+                .into(holder.movieImage);
 
     }
 

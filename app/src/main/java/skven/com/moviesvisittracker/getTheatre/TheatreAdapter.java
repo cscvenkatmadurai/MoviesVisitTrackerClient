@@ -29,9 +29,9 @@ public class TheatreAdapter extends  RecyclerView.Adapter<TheatreAdapter.MyViewH
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
-        holder.theatreId.setText(Integer.toString(theatresArray[position].theatreId));
-        holder.theatreName.setText(theatresArray[position].theatreName);
-        holder.theatreLocation.setText(theatresArray[position].theatreLocation);
+        holder.theatreId.setText("TheatreId: " + Integer.toString(theatresArray[position].theatreId));
+        holder.theatreName.setText("Theatre Name: " + theatresArray[position].theatreName);
+        holder.theatreLocation.setText("Theatre Loacation: " + theatresArray[position].theatreLocation);
 
     }
 

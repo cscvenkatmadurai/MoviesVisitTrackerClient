@@ -121,6 +121,7 @@ public class AddTheatreFragment extends Fragment {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(theatreAdapter);
+        //recyclerView.addItemDecoration(new LineDividerItemDecoration(this, R.drawable.line_divider));
 
 
 
