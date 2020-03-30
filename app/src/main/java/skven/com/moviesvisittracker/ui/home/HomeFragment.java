@@ -29,11 +29,12 @@ import skven.com.moviesvisittracker.R;
 import skven.com.moviesvisittracker.constants.LoginConstants;
 import skven.com.moviesvisittracker.date.DateUtil;
 import skven.com.moviesvisittracker.helper.SharedPreferenceHelper;
+import skven.com.moviesvisittracker.movieVisit.MovieVisitByDateFetcher;
 import skven.com.moviesvisittracker.movieVisit.MovieVisitMini;
 import skven.com.moviesvisittracker.movieVisit.MovieVisitMiniAdapter;
 import skven.com.moviesvisittracker.ui.addMovieVisit.AddMovieVisitFragment;
 
-public class HomeFragment extends Fragment implements CustomDateRangeSelectorAlertDialog.CustomDateRangeSelectorDTO{
+public class HomeFragment extends Fragment implements CustomDateRangeSelectorAlertDialog.CustomDateRangeSelectorDTO, MovieVisitByDateFetcher.MovieVisitMiniListener {
 
 
     private static final String TAG = "###HomeFragment";
@@ -80,18 +81,14 @@ public class HomeFragment extends Fragment implements CustomDateRangeSelectorAle
         });
 
         numMoviesWatched = root.findViewById(R.id.moviesWatchedCount);
-
-
-        populateVisitedMovies(DateUtil.getMonthStartInMilliSeconds(), System.currentTimeMillis());
-
-
         recyclerView = (RecyclerView) root.findViewById(R.id.movie_visits_recycler_view);
-
         mAdapter = new MovieVisitMiniAdapter();
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
+
+        populateVisitedMovies(DateUtil.getMonthStartInMilliSeconds(), System.currentTimeMillis());
 
 
 
@@ -106,48 +103,11 @@ public class HomeFragment extends Fragment implements CustomDateRangeSelectorAle
     }
 
     private void populateVisitedMovies(long startTime, long endTime) {
+        Log.i(TAG, "populateVisitedMovies: starting to populate movie");
         String userId = SharedPreferenceHelper.getKey(getActivity(), LoginConstants.USER_ID, LoginConstants.USER_ID);
-        String url = "https://kiq5henquk.execute-api.us-east-1.amazonaws.com/test/movievisit?userName=" + userId + "&startTime=" + startTime + "&endTime=" + endTime;
-        System.out.println(url);
-        HashMap<String, String> queryParameter = new HashMap<>();
-        queryParameter.put("userName", userId);
-        queryParameter.put("startTime", Long.toString(startTime));
-        queryParameter.put("endTime", Long.toString(endTime));
-        ConnectionManager.volleyStringRequest(getContext(), false, null, url, Request.Method.GET,queryParameter, "fetch-home",  new GloxeyCallback.StringResponse() {
-                    @Override
-                    public void onResponse(String _response, String _tag) {
-
-                        Log.i(TAG, "response \n" + _response);
+        MovieVisitByDateFetcher.getMovieVisitByDate(getContext(), userId, startTime, endTime, this);
 
 
-                        try {
-                            MovieVisitMini[] parse = GloxeyJsonParser.getInstance().parse(_response, MovieVisitMini[].class);
-                            numMoviesWatched.setText("Number of movies watched: " + parse.length);
-                            numMoviesWatched.setVisibility(View.VISIBLE);
-                            Log.i(TAG + "parse", parse[0].toString());
-                            mAdapter.setMoviesArray(parse);
-                            mAdapter.notifyDataSetChanged();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-
-                    }
-
-                    @Override
-                    public void isConnected(boolean _connected, String _tag) {
-
-                    }
-
-                    @Override
-                    public void onErrorResponse(VolleyError _error, boolean _onErrorResponse, String _tag) {
-
-                        /**
-                         * handle Volley Error
-                         */
-                        Log.e(TAG, "exception", _error);
-                    }
-                }
-            );
     }
 
 
@@ -157,6 +117,15 @@ public class HomeFragment extends Fragment implements CustomDateRangeSelectorAle
         Log.i(TAG, "### receive method");
         toggleGroup.check(R.id.custom_range);
         populateVisitedMovies(startDateInMilliSeconds, endDateInMilliSeconds);
+
+    }
+
+    @Override
+    public void update(MovieVisitMini[] movieVisitMini) {
+        numMoviesWatched.setText("Number of movies watched: " + movieVisitMini.length);
+        numMoviesWatched.setVisibility(View.VISIBLE);
+        mAdapter.setMoviesArray(movieVisitMini);
+        mAdapter.notifyDataSetChanged();
 
     }
 }

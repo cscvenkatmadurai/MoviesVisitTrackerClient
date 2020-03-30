@@ -19,19 +19,21 @@ public class MovieVisitByDateFetcher {
 
     private static MovieVisitMini[] EMPTY_ARRAY = new MovieVisitMini[0];
     private static final String TAG = "MovieVisitByDateFetcher";
-    private MovieVisitMini[] result = EMPTY_ARRAY;
 
 
-    public  MovieVisitMini[] getMovieVisitByDate(final Context context, final String userId,
-                                                 final long startTime, final long endTime) {
+
+    public  static void getMovieVisitByDate(final Context context, final String userId,
+                                                 final long startTime, final long endTime,
+                                                 final MovieVisitMiniListener movieVisitMiniListener) {
+        System.out.println("MovieVisitByDateFetcher getMovieVisitByDate");
         if(startTime >= endTime) {
             Log.e(TAG, "getMovieVisitByDate: start date is greater than end date");
-            return  EMPTY_ARRAY;
+            return;
         }
 
         if(TextUtils.isEmpty(userId) ) {
             Log.e(TAG, "getMovieVisitByDate: userName is empty"  );
-            return EMPTY_ARRAY;
+            return;
         }
 
 
@@ -45,6 +47,7 @@ public class MovieVisitByDateFetcher {
         ConnectionManager.volleyStringRequest(context, false, null, url, Request.Method.GET,queryParameter, "fetch-home",  new GloxeyCallback.StringResponse() {
                     @Override
                     public void onResponse(String _response, String _tag) {
+                        System.out.println("MovieVisitByDateFetcher " + _response);
 
                         Log.i(TAG, "response \n" + _response);
 
@@ -54,7 +57,7 @@ public class MovieVisitByDateFetcher {
                             if(parse.length > 0) {
                                 Log.i(TAG + "parse", parse[0].toString());
                             }
-                            result =  parse;
+                            movieVisitMiniListener.update(parse);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -73,12 +76,17 @@ public class MovieVisitByDateFetcher {
                          * handle Volley Error
                          */
                         Log.e(TAG, "exception", _error);
+                        System.out.println("MovieVisitByDateFetcher " + _error);
+
                     }
                 }
         );
 
 
-        return result;
+    }
 
+
+    public interface MovieVisitMiniListener {
+         void update(MovieVisitMini[] movieVisitMini);
     }
 }
