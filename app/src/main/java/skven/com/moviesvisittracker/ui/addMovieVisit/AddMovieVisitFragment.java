@@ -1,6 +1,5 @@
 package skven.com.moviesvisittracker.ui.addMovieVisit;
 
-import android.app.DownloadManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -51,7 +50,7 @@ public class AddMovieVisitFragment extends Fragment implements DatePickerDialog.
 
         View root = inflater.inflate(R.layout.fragment_add_movie_visit, container, false);
 
-        Calendar now = Calendar.getInstance();
+
 
         date = root.findViewById(R.id.button_add_date);
         imdbId = root.findViewById(R.id.edit_text_add_movie_visit_imdbId);
@@ -62,6 +61,7 @@ public class AddMovieVisitFragment extends Fragment implements DatePickerDialog.
 
 
         date.setOnClickListener(view -> {
+            Calendar now = Calendar.getInstance();
             DatePickerDialog dpd = DatePickerDialog.newInstance(
                     AddMovieVisitFragment.this,
                     now.get(Calendar.YEAR), // Initial year selection
@@ -189,4 +189,6 @@ public class AddMovieVisitFragment extends Fragment implements DatePickerDialog.
         super.onResume();
         Log.i(TAG, "onResume: ");
     }
+
+
 }

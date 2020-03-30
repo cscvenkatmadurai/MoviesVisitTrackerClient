@@ -5,13 +5,16 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.google.android.material.button.MaterialButtonToggleGroup;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
+import java.util.Calendar;
 import java.util.HashMap;
 
 import androidx.annotation.NonNull;
@@ -28,8 +31,9 @@ import skven.com.moviesvisittracker.date.DateUtil;
 import skven.com.moviesvisittracker.helper.SharedPreferenceHelper;
 import skven.com.moviesvisittracker.movieVisit.MovieVisitMini;
 import skven.com.moviesvisittracker.movieVisit.MovieVisitMiniAdapter;
+import skven.com.moviesvisittracker.ui.addMovieVisit.AddMovieVisitFragment;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements CustomDateRangeSelectorAlertDialog.CustomDateRangeSelectorDTO{
 
 
     private static final String TAG = "###HomeFragment";
@@ -48,27 +52,37 @@ public class HomeFragment extends Fragment {
         toggleGroup  = root.findViewById(R.id.toggleGroup);
         toggleGroup.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
             if(checkedId == R.id.this_month ) {
-               // Toast.makeText(getContext(),"android", Toast.LENGTH_LONG  ).show();
                 if(recyclerView != null) {
+
                     populateVisitedMovies(DateUtil.getMonthStartInMilliSeconds(), System.currentTimeMillis());
                 }
             }
             if(checkedId == R.id.this_year) {
-             //   Toast.makeText(getContext(),"ios", Toast.LENGTH_LONG  ).show();
+
                 if(recyclerView != null) {
+
+
                     populateVisitedMovies(DateUtil.getYearStartInMilliSeconds(), System.currentTimeMillis());
                 }
 
+            }
+
+            if(checkedId == R.id.custom_range) {
+                numMoviesWatched.setVisibility(View.INVISIBLE);
+                Log.i(TAG, "custom  is clicked");
+                openCustomDateRangeSelectAlertDialog();
+                mAdapter.setMoviesArray(new MovieVisitMini[0]);
+                mAdapter.notifyDataSetChanged();
+
 
             }
-            
-        });
 
+        });
 
         numMoviesWatched = root.findViewById(R.id.moviesWatchedCount);
 
 
-        populateVisitedMovies(0, 1585763051480L);
+        populateVisitedMovies(DateUtil.getMonthStartInMilliSeconds(), System.currentTimeMillis());
 
 
         recyclerView = (RecyclerView) root.findViewById(R.id.movie_visits_recycler_view);
@@ -84,6 +98,13 @@ public class HomeFragment extends Fragment {
         return root;
     }
 
+    private void openCustomDateRangeSelectAlertDialog() {
+        Log.i("### HomeFragment", "on openCustomDateRangeSelectAlertDialog");
+        CustomDateRangeSelectorAlertDialog alertDialog = new CustomDateRangeSelectorAlertDialog();
+        alertDialog.setTargetFragment(this, 0);
+        alertDialog.show(getFragmentManager(), "CustomerDateRangeSelectorAlertDialog");
+    }
+
     private void populateVisitedMovies(long startTime, long endTime) {
         String userId = SharedPreferenceHelper.getKey(getActivity(), LoginConstants.USER_ID, LoginConstants.USER_ID);
         String url = "https://kiq5henquk.execute-api.us-east-1.amazonaws.com/test/movievisit?userName=" + userId + "&startTime=" + startTime + "&endTime=" + endTime;
@@ -92,7 +113,7 @@ public class HomeFragment extends Fragment {
         queryParameter.put("userName", userId);
         queryParameter.put("startTime", Long.toString(startTime));
         queryParameter.put("endTime", Long.toString(endTime));
-        ConnectionManager.volleyStringRequest(getContext(), true, null, url, Request.Method.GET,queryParameter, "fetch-home",  new GloxeyCallback.StringResponse() {
+        ConnectionManager.volleyStringRequest(getContext(), false, null, url, Request.Method.GET,queryParameter, "fetch-home",  new GloxeyCallback.StringResponse() {
                     @Override
                     public void onResponse(String _response, String _tag) {
 
@@ -127,5 +148,15 @@ public class HomeFragment extends Fragment {
                     }
                 }
             );
+    }
+
+
+
+    @Override
+    public void receive(long startDateInMilliSeconds, long endDateInMilliSeconds) {
+        Log.i(TAG, "### receive method");
+        toggleGroup.check(R.id.custom_range);
+        populateVisitedMovies(startDateInMilliSeconds, endDateInMilliSeconds);
+
     }
 }
