@@ -54,9 +54,9 @@ public class MovieVisitByDateFetcher {
 
                         try {
                             MovieVisitMini[] parse = GloxeyJsonParser.getInstance().parse(_response, MovieVisitMini[].class);
-                            if(parse.length > 0) {
-                                Log.i(TAG + "parse", parse[0].toString());
-                            }
+
+                                Log.i(TAG, "movieVisitLength" + parse.length);
+
                             movieVisitMiniListener.update(parse);
                         } catch (Exception e) {
                             e.printStackTrace();
