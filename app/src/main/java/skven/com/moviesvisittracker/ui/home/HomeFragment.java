@@ -5,6 +5,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButtonToggleGroup;
 
@@ -19,7 +20,8 @@ public class HomeFragment extends Fragment implements CustomDateRangeSelectorAle
 
 
     private static final String TAG = "###HomeFragment";
-    private MaterialButtonToggleGroup toggleGroup;
+    private MaterialButtonToggleGroup toggleDuration;
+    private MaterialButtonToggleGroup toggleBy;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -27,21 +29,20 @@ public class HomeFragment extends Fragment implements CustomDateRangeSelectorAle
         Log.i(TAG, "onCreateView: called" );
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-        toggleGroup  = root.findViewById(R.id.toggleGroup);
-        toggleGroup.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
+        toggleDuration = root.findViewById(R.id.toggleDuration);
+        toggleDuration.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
             if(checkedId == R.id.this_month ) {
                 Log.d(TAG, "onCreateView: this_month selected");
 
-                    createOrReplaceMovieVisitByDateFragment( DateUtil.getMonthStartInMilliSeconds(), System.currentTimeMillis());
+                    MovieVisitByDate.byMonth(getActivity().getSupportFragmentManager());
+
 
 
 
             }
             if(checkedId == R.id.this_year) {
-
+                MovieVisitByDate.byYear(getActivity().getSupportFragmentManager());
                 Log.d(TAG, "onCreateView: this_year selected");
-                    createOrReplaceMovieVisitByDateFragment(DateUtil.getYearStartInMilliSeconds(), System.currentTimeMillis());
-
 
             }
 
@@ -54,6 +55,28 @@ public class HomeFragment extends Fragment implements CustomDateRangeSelectorAle
 
         });
 
+        toggleDuration = root.findViewById(R.id.toggleBy);
+
+        toggleDuration.addOnButtonCheckedListener(((group, checkedId, isChecked) -> {
+            if(R.id.by_date == checkedId) {
+                Toast.makeText(getContext(), "By Date", Toast.LENGTH_SHORT ).show();
+            }
+
+            if(R.id.by_count == checkedId) {
+                Toast.makeText(getContext(), "By count", Toast.LENGTH_SHORT ).show();
+            }
+
+            if(R.id.by_lang == checkedId) {
+                Toast.makeText(getContext(), "By lang", Toast.LENGTH_SHORT ).show();
+            }
+
+            if(R.id.by_theatre == checkedId) {
+                Toast.makeText(getContext(), "By theatre", Toast.LENGTH_SHORT ).show();
+            }
+
+
+
+        }));
 
         createOrReplaceMovieVisitByDateFragment(DateUtil.getMonthStartInMilliSeconds(), System.currentTimeMillis());
 
@@ -98,8 +121,8 @@ public class HomeFragment extends Fragment implements CustomDateRangeSelectorAle
     @Override
     public void receive(long startDateInMilliSeconds, long endDateInMilliSeconds) {
         Log.i(TAG, "### receive method");
-        toggleGroup.check(R.id.custom_range);
-        createOrReplaceMovieVisitByDateFragment(startDateInMilliSeconds, endDateInMilliSeconds);
+        toggleDuration.check(R.id.custom_range);
+        MovieVisitByDate.customRange(getActivity().getSupportFragmentManager(), startDateInMilliSeconds, endDateInMilliSeconds);
 
     }
 
