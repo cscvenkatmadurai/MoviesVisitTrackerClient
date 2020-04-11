@@ -7,25 +7,21 @@ import android.util.Log;
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 
-import java.util.HashMap;
-
 import io.gloxey.gnm.interfaces.GloxeyCallback;
 import io.gloxey.gnm.managers.ConnectionManager;
 import io.gloxey.gnm.parser.GloxeyJsonParser;
+import skven.com.moviesvisittracker.movieVisit.dao.MovieVisitByIdResponse;
 import skven.com.moviesvisittracker.movieVisit.dao.MovieVisitMini;
 
+public class MovieVisitByIdFetcher {
 
-public class MovieVisitByDateFetcher {
-
-    private static MovieVisitMini[] EMPTY_ARRAY = new MovieVisitMini[0];
-    private static final String TAG = "MovieVisitByDateFetcher";
+    private static final String TAG = "MovieVisitByIdFetcher";
 
 
+    public static void getMovieVisitByIdResponse(final Context context, final String userId,
+                                                 final long startTime, final long endTime, final String by,
+                                                 final MovieVisitByIdResponseListener listener) {
 
-    public  static void getMovieVisitByDate(final Context context, final String userId,
-                                                 final long startTime, final long endTime,
-                                                 final MovieVisitMiniListener movieVisitMiniListener) {
-        System.out.println("MovieVisitByDateFetcher getMovieVisitByDate");
         if(startTime >= endTime) {
             Log.e(TAG, "getMovieVisitByDate: start date is greater than end date");
             return;
@@ -36,28 +32,19 @@ public class MovieVisitByDateFetcher {
             return;
         }
 
+        String url = "https://kiq5henquk.execute-api.us-east-1.amazonaws.com/test/movievisit?userName=" + userId + "&startTime=" + startTime + "&endTime=" + endTime+"&by=" + by;
 
-        String url = "https://kiq5henquk.execute-api.us-east-1.amazonaws.com/test/movievisit?userName=" + userId + "&startTime=" + startTime + "&endTime=" + endTime+"&by=date";
-        System.out.println(url);
-        HashMap<String, String> queryParameter = new HashMap<>();
-        queryParameter.put("userName", userId);
-        queryParameter.put("startTime", Long.toString(startTime));
-        queryParameter.put("endTime", Long.toString(endTime));
 
-        ConnectionManager.volleyStringRequest(context, false, null, url, Request.Method.GET,queryParameter, "fetch-home",  new GloxeyCallback.StringResponse() {
+        ConnectionManager.volleyStringRequest(context, false, null, url, Request.Method.GET,null, "fetch-home",  new GloxeyCallback.StringResponse() {
                     @Override
                     public void onResponse(String _response, String _tag) {
-                        System.out.println("MovieVisitByDateFetcher " + _response);
 
                         Log.i(TAG, "response \n" + _response);
 
 
                         try {
-                            MovieVisitMini[] parse = GloxeyJsonParser.getInstance().parse(_response, MovieVisitMini[].class);
-
-                                Log.i(TAG, "movieVisitLength" + parse.length);
-
-                            movieVisitMiniListener.update(parse);
+                            MovieVisitByIdResponse response = GloxeyJsonParser.getInstance().parse(_response, MovieVisitByIdResponse.class);
+                            listener.update(response);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -83,10 +70,13 @@ public class MovieVisitByDateFetcher {
         );
 
 
+
     }
 
 
-    public interface MovieVisitMiniListener {
-         void update(MovieVisitMini[] movieVisitMini);
+
+
+    public interface MovieVisitByIdResponseListener {
+        void update(MovieVisitByIdResponse movieVisitByIdResponse);
     }
 }

@@ -1,4 +1,4 @@
-package skven.com.moviesvisittracker.movieVisit;
+package skven.com.moviesvisittracker.movieVisit.dao;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

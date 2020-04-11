@@ -18,4 +18,5 @@
     <string name="theatre_name">Theatre name  :</string>
     <string name="theatre_location">theatre location  :</string>
     <string name="submit">Submit</string>
+    <string name="num_movies_watched">Number of movies watched:</string>
 </resources>

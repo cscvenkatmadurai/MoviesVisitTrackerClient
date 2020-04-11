@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -31,7 +30,6 @@ import io.gloxey.gnm.parser.GloxeyJsonParser;
 import skven.com.moviesvisittracker.R;
 import skven.com.moviesvisittracker.getTheatre.TheatreAdapter;
 import skven.com.moviesvisittracker.getTheatre.TheatreDTO;
-import skven.com.moviesvisittracker.movieVisit.MovieVisitMini;
 
 public class AddTheatreFragment extends Fragment {
     private static final String TAG = "AddTheatreFragment";

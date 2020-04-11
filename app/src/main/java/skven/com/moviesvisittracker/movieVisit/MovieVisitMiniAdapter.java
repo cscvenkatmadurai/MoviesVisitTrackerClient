@@ -1,7 +1,6 @@
 package skven.com.moviesvisittracker.movieVisit;
 
 
-import android.graphics.Movie;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,10 +12,10 @@ import com.squareup.picasso.Picasso;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 
 import androidx.recyclerview.widget.RecyclerView;
 import skven.com.moviesvisittracker.R;
+import skven.com.moviesvisittracker.movieVisit.dao.MovieVisitMini;
 
 public class MovieVisitMiniAdapter extends RecyclerView.Adapter<MovieVisitMiniAdapter.MyViewHolder> {
 

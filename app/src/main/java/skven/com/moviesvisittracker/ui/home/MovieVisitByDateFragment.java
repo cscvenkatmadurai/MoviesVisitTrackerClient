@@ -18,7 +18,7 @@ import skven.com.moviesvisittracker.constants.LoginConstants;
 import skven.com.moviesvisittracker.date.DateUtil;
 import skven.com.moviesvisittracker.helper.SharedPreferenceHelper;
 import skven.com.moviesvisittracker.movieVisit.MovieVisitByDateFetcher;
-import skven.com.moviesvisittracker.movieVisit.MovieVisitMini;
+import skven.com.moviesvisittracker.movieVisit.dao.MovieVisitMini;
 import skven.com.moviesvisittracker.movieVisit.MovieVisitMiniAdapter;
 
 public class MovieVisitByDateFragment extends Fragment implements MovieVisitByDateFetcher.MovieVisitMiniListener {

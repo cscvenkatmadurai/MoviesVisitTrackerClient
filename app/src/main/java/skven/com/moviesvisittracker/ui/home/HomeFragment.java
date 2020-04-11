@@ -22,6 +22,7 @@ public class HomeFragment extends Fragment implements CustomDateRangeSelectorAle
     private static final String TAG = "###HomeFragment";
     private MaterialButtonToggleGroup toggleDuration;
     private MaterialButtonToggleGroup toggleBy;
+    long startTime, endTime;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -33,6 +34,8 @@ public class HomeFragment extends Fragment implements CustomDateRangeSelectorAle
         toggleDuration.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
             if(checkedId == R.id.this_month ) {
                 Log.d(TAG, "onCreateView: this_month selected");
+                startTime = DateUtil.getMonthStartInMilliSeconds();
+                endTime = System.currentTimeMillis();
 
                     MovieVisitByDate.byMonth(getActivity().getSupportFragmentManager());
 
@@ -42,6 +45,8 @@ public class HomeFragment extends Fragment implements CustomDateRangeSelectorAle
             }
             if(checkedId == R.id.this_year) {
                 MovieVisitByDate.byYear(getActivity().getSupportFragmentManager());
+                startTime = DateUtil.getYearStartInMilliSeconds();
+                endTime = System.currentTimeMillis();
                 Log.d(TAG, "onCreateView: this_year selected");
 
             }
@@ -68,6 +73,37 @@ public class HomeFragment extends Fragment implements CustomDateRangeSelectorAle
 
             if(R.id.by_lang == checkedId) {
                 Toast.makeText(getContext(), "By lang", Toast.LENGTH_SHORT ).show();
+
+
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+                MovieVisitByIdFragment fragment = new MovieVisitByIdFragment();
+
+                if(fragmentManager.findFragmentById(R.id.home_recycler_view) == null ) {
+                    Log.i(TAG, "createOrReplaceMovieVisitByDateFragment: adding recyclerview ");
+                    fragmentTransaction.add(R.id.home_recycler_view, fragment);
+
+                } else {
+                    Log.i(TAG, "createOrReplaceMovieVisitByDateFragment: replacing recycler view");
+                    fragmentTransaction.replace(R.id.home_recycler_view, fragment);
+                }
+                fragmentTransaction.addToBackStack(null);
+                Bundle bundle = new Bundle();
+                bundle.putLong("startTime", startTime);
+                bundle.putLong("endTime", endTime);
+                bundle.putString("by", "lang");
+
+
+                fragment.setArguments(bundle);
+
+                fragmentTransaction.commit();
+
+
+
+
+
+
             }
 
             if(R.id.by_theatre == checkedId) {
@@ -104,6 +140,7 @@ public class HomeFragment extends Fragment implements CustomDateRangeSelectorAle
         bundle.putLong("startTime", startTime);
         bundle.putLong("endTime", endTime);
 
+
         fragment.setArguments(bundle);
 
         fragmentTransaction.commit();
@@ -122,6 +159,8 @@ public class HomeFragment extends Fragment implements CustomDateRangeSelectorAle
     public void receive(long startDateInMilliSeconds, long endDateInMilliSeconds) {
         Log.i(TAG, "### receive method");
         toggleDuration.check(R.id.custom_range);
+        startTime = startDateInMilliSeconds;
+        endTime = endDateInMilliSeconds;
         MovieVisitByDate.customRange(getActivity().getSupportFragmentManager(), startDateInMilliSeconds, endDateInMilliSeconds);
 
     }
