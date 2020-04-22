@@ -44,7 +44,7 @@ public class MovieVisitByDateFetcher {
         queryParameter.put("startTime", Long.toString(startTime));
         queryParameter.put("endTime", Long.toString(endTime));
 
-        ConnectionManager.volleyStringRequest(context, false, null, url, Request.Method.GET,queryParameter, "fetch-home",  new GloxeyCallback.StringResponse() {
+        ConnectionManager.volleyStringRequest(context, true, null, url, Request.Method.GET,queryParameter, "fetch-home",  new GloxeyCallback.StringResponse() {
                     @Override
                     public void onResponse(String _response, String _tag) {
                         System.out.println("MovieVisitByDateFetcher " + _response);

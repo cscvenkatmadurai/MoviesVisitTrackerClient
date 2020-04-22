@@ -35,7 +35,7 @@ public class MovieVisitByIdFetcher {
         String url = "https://kiq5henquk.execute-api.us-east-1.amazonaws.com/test/movievisit?userName=" + userId + "&startTime=" + startTime + "&endTime=" + endTime+"&by=" + by;
 
 
-        ConnectionManager.volleyStringRequest(context, false, null, url, Request.Method.GET,null, "fetch-home",  new GloxeyCallback.StringResponse() {
+        ConnectionManager.volleyStringRequest(context, true, null, url, Request.Method.GET,null, "fetch-home",  new GloxeyCallback.StringResponse() {
                     @Override
                     public void onResponse(String _response, String _tag) {
 
