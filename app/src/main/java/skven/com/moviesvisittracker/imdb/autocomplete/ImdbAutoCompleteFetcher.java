@@ -12,6 +12,7 @@ import com.google.gson.GsonBuilder;
 import io.gloxey.gnm.interfaces.GloxeyCallback;
 import io.gloxey.gnm.managers.ConnectionManager;
 import io.gloxey.gnm.parser.GloxeyJsonParser;
+import skven.com.moviesvisittracker.imdb.autocomplete.dao.IMDBResponse;
 import skven.com.moviesvisittracker.movieVisit.dao.MovieVisitByIdResponse;
 
 public class ImdbAutoCompleteFetcher {
@@ -32,7 +33,12 @@ public class ImdbAutoCompleteFetcher {
 
                         Log.i(TAG, "response \n" + _response);
                         Toast.makeText(context, _response, Toast.LENGTH_SHORT).show();
-
+                        try {
+                            IMDBResponse parse = GloxeyJsonParser.getInstance().parse(_response, IMDBResponse.class);
+                            Toast.makeText(context, parse.getQuery(), Toast.LENGTH_SHORT).show();
+                        }catch (Exception e) {
+                            Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
 
 
                     }
