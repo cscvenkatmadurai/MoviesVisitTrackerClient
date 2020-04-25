@@ -7,12 +7,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import javax.inject.Inject;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import skven.com.moviesvisittracker.Application;
 import skven.com.moviesvisittracker.R;
 import skven.com.moviesvisittracker.constants.LoginConstants;
 import skven.com.moviesvisittracker.date.DateUtil;
@@ -28,10 +31,14 @@ public class MovieVisitByDateFragment extends Fragment implements MovieVisitByDa
     private MovieVisitMiniAdapter mAdapter;
     private TextView numMoviesWatched;
 
+    @Inject
+    MovieVisitByDateFetcher movieVisitByDateFetcher;
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        Application.getAppComponent().inject(this);
         View root = inflater.inflate(R.layout.fragment_movie_visit_by_date, container, false);
 
         Log.i(TAG, "onCreateView: ");
@@ -67,8 +74,7 @@ public class MovieVisitByDateFragment extends Fragment implements MovieVisitByDa
 
     private void populateVisitedMovies(long startTime, long endTime) {
         Log.i(TAG, "populateVisitedMovies: starting to populate movie for startDate: " + startTime + " endTime: " + endTime);
-        String userId = SharedPreferenceHelper.getKey(getActivity(), LoginConstants.USER_ID, LoginConstants.USER_ID);
-        MovieVisitByDateFetcher.getMovieVisitByDate(getContext(), userId, startTime, endTime, this);
+        movieVisitByDateFetcher.getMovieVisitByDate(startTime, endTime, this);
 
 
     }

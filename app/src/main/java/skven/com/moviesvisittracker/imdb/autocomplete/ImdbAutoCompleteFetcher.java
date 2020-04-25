@@ -9,17 +9,27 @@ import com.android.volley.Request;
 import com.android.volley.VolleyError;
 import com.google.gson.GsonBuilder;
 
+import javax.inject.Inject;
+
 import io.gloxey.gnm.interfaces.GloxeyCallback;
 import io.gloxey.gnm.managers.ConnectionManager;
 import io.gloxey.gnm.parser.GloxeyJsonParser;
+import skven.com.moviesvisittracker.Application;
 import skven.com.moviesvisittracker.imdb.autocomplete.dao.IMDBResponse;
 import skven.com.moviesvisittracker.movieVisit.dao.MovieVisitByIdResponse;
 
 public class ImdbAutoCompleteFetcher {
 
     private static final String TAG = "ImdbAutoCompleteFetcher";
+    final Context context;
 
-    public static void fetch(final String prefix, final Context context) {
+    @Inject
+    public ImdbAutoCompleteFetcher(final Context context) {
+        this.context = context;
+    }
+
+
+    public void fetch(final String prefix) {
         if(TextUtils.isEmpty(prefix)) {
             return;
         }

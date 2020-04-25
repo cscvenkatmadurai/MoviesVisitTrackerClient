@@ -7,7 +7,7 @@ import android.content.SharedPreferences;
 public class SharedPreferenceHelper {
 
 
-    public static void addKey(final ContextWrapper contentWrapper, final String fileName, final String keyName, final String value) {
+    public static void addKey(final Context contentWrapper, final String fileName, final String keyName, final String value) {
         final SharedPreferences sharedPreferences = contentWrapper.getSharedPreferences(fileName, Context.MODE_PRIVATE);
         sharedPreferences.edit().putString(keyName, value).apply();
     }

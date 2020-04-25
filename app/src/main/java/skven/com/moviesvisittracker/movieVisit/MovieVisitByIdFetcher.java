@@ -1,41 +1,57 @@
 package skven.com.moviesvisittracker.movieVisit;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.VolleyError;
 
+
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import io.gloxey.gnm.interfaces.GloxeyCallback;
 import io.gloxey.gnm.managers.ConnectionManager;
 import io.gloxey.gnm.parser.GloxeyJsonParser;
+import skven.com.moviesvisittracker.constants.LoginConstants;
 import skven.com.moviesvisittracker.movieVisit.dao.MovieVisitByIdResponse;
-import skven.com.moviesvisittracker.movieVisit.dao.MovieVisitMini;
 
+@Singleton
 public class MovieVisitByIdFetcher {
 
     private static final String TAG = "MovieVisitByIdFetcher";
 
 
-    public static void getMovieVisitByIdResponse(final Context context, final String userId,
-                                                 final long startTime, final long endTime, final String by,
-                                                 final MovieVisitByIdResponseListener listener) {
+    final Context context;
+    final SharedPreferences loginSharedPreference;
 
-        if(startTime >= endTime) {
+    @Inject
+    public MovieVisitByIdFetcher(final Context context, @Named("loginSharedPreference") SharedPreferences loginSharedPreference) {
+        this.context = context;
+        this.loginSharedPreference = loginSharedPreference;
+    }
+
+    public void getMovieVisitByIdResponse(final long startTime, final long endTime, final String by,
+                                          final MovieVisitByIdResponseListener listener) {
+
+        if (startTime >= endTime) {
             Log.e(TAG, "getMovieVisitByDate: start date is greater than end date");
             return;
         }
 
-        if(TextUtils.isEmpty(userId) ) {
-            Log.e(TAG, "getMovieVisitByDate: userName is empty"  );
+        final String userId = loginSharedPreference.getString(LoginConstants.USER_ID, LoginConstants.USER_ID);
+        if (TextUtils.isEmpty(userId)) {
+            Log.e(TAG, "getMovieVisitByDate: userName is empty");
             return;
         }
 
-        String url = "https://kiq5henquk.execute-api.us-east-1.amazonaws.com/test/movievisit?userName=" + userId + "&startTime=" + startTime + "&endTime=" + endTime+"&by=" + by;
+        String url = "https://kiq5henquk.execute-api.us-east-1.amazonaws.com/test/movievisit?userName=" + userId + "&startTime=" + startTime + "&endTime=" + endTime + "&by=" + by;
 
 
-        ConnectionManager.volleyStringRequest(context, true, null, url, Request.Method.GET,null, "fetch-home",  new GloxeyCallback.StringResponse() {
+        ConnectionManager.volleyStringRequest(context, false, null, url, Request.Method.GET, null, "fetch-home", new GloxeyCallback.StringResponse() {
                     @Override
                     public void onResponse(String _response, String _tag) {
 
@@ -70,10 +86,7 @@ public class MovieVisitByIdFetcher {
         );
 
 
-
     }
-
-
 
 
     public interface MovieVisitByIdResponseListener {

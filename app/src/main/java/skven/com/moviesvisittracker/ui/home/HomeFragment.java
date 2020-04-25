@@ -61,7 +61,6 @@ public class HomeFragment extends Fragment implements CustomDateRangeSelectorAle
         toggleBy.check(R.id.by_date);
         toggleDuration.check(R.id.this_year);
 
-        ImdbAutoCompleteFetcher.fetch("big", getContext());
 
         toggleDuration.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
             if(checkedId == R.id.this_month ) {

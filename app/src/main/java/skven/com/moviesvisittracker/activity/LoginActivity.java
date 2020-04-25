@@ -8,25 +8,33 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import skven.com.moviesvisittracker.Application;
 import skven.com.moviesvisittracker.R;
 import skven.com.moviesvisittracker.constants.LoginConstants;
-import skven.com.moviesvisittracker.helper.SharedPreferenceHelper;
 
 
 public class LoginActivity  extends AppCompatActivity {
 
     EditText userId;
     Button login;
+
+    @Inject
+    @Named("loginSharedPreference")
     SharedPreferences sharedPreferences;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
 
-        sharedPreferences = getSharedPreferences(LoginConstants.USER_ID, MODE_PRIVATE);
+        super.onCreate(savedInstanceState);
+        Application.getAppComponent().
+                inject(this);
+
         if(sharedPreferences.contains(LoginConstants.USER_ID)) {
             Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
             startActivity(intent);
@@ -40,7 +48,7 @@ public class LoginActivity  extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), LoginConstants.USER_ID + " is empty", Toast.LENGTH_LONG).show();
                     return;
                 }
-                SharedPreferenceHelper.addKey(this, LoginConstants.USER_ID, LoginConstants.USER_ID, userId.getText().toString());
+                sharedPreferences.edit().putString(LoginConstants.USER_ID, userId.getText().toString()).apply();
                 Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
                 startActivity(intent);
             });
