@@ -37,6 +37,7 @@ public class TheatreAdapter extends  RecyclerView.Adapter<TheatreAdapter.MyViewH
 
     public void setTheatresArray(TheatreDTO[] theatresArray) {
         this.theatresArray = theatresArray;
+        notifyDataSetChanged();
     }
 
     @Override

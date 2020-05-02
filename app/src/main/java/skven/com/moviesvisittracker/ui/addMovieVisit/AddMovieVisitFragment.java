@@ -1,11 +1,13 @@
 package skven.com.moviesvisittracker.ui.addMovieVisit;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -20,22 +22,43 @@ import org.json.JSONObject;
 import java.util.Calendar;
 import java.util.HashMap;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+import javax.inject.Qualifier;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import io.gloxey.gnm.interfaces.GloxeyCallback;
 import io.gloxey.gnm.managers.ConnectionManager;
+import skven.com.moviesvisittracker.Application;
 import skven.com.moviesvisittracker.R;
 import skven.com.moviesvisittracker.constants.LoginConstants;
+import skven.com.moviesvisittracker.getTheatre.GetTheatreArrayAdapter;
+import skven.com.moviesvisittracker.getTheatre.TheatreDTO;
 import skven.com.moviesvisittracker.helper.SharedPreferenceHelper;
+import skven.com.moviesvisittracker.imdb.autocomplete.IMDBAutoCompleteAdapter;
+import skven.com.moviesvisittracker.imdb.autocomplete.ImdbAutoCompleteFetcher;
+import skven.com.moviesvisittracker.imdb.autocomplete.dao.IMDBSuggestions;
 
 public class AddMovieVisitFragment extends Fragment implements DatePickerDialog.OnDateSetListener {
 
-    Button date, addMovieVisitButton;
-    long showTimeInMilliSeconds;
-    EditText imdbId, theatreId, langWatched, rating;
-
+    private Button date, addMovieVisitButton;
+    private long showTimeInMilliSeconds;
+    private EditText imdbId, theatreId, langWatched, rating;
+    private AutoCompleteTextView movieName, theatreName;
     private static final String TAG = "AddMovieVisitFragment";
+
+    @Inject
+    @Named("loginSharedPreference")
+    SharedPreferences loginSharedPref;
+
+
+    @Inject
+    IMDBAutoCompleteAdapter imdbAutoCompleteAdapter;
+
+    @Inject
+    GetTheatreArrayAdapter getTheatreArrayAdapter;
 
 
     @Override
@@ -47,6 +70,7 @@ public class AddMovieVisitFragment extends Fragment implements DatePickerDialog.
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView: ");
+        Application.getAppComponent().inject(this);
 
         View root = inflater.inflate(R.layout.fragment_add_movie_visit, container, false);
 
@@ -58,6 +82,24 @@ public class AddMovieVisitFragment extends Fragment implements DatePickerDialog.
         langWatched = root.findViewById(R.id.edit_text_lang_watched);
         rating = root.findViewById(R.id.edit_text_rating);
         addMovieVisitButton = root.findViewById(R.id.button_add_movie_visit);
+        movieName = root.findViewById(R.id.autocomplete_movie_name);
+        movieName.setAdapter(imdbAutoCompleteAdapter);
+
+        movieName.setOnItemClickListener((adapterView, view, i, l) -> {
+            IMDBSuggestions movieSuggestion = (IMDBSuggestions)adapterView.getAdapter().getItem(i);
+            imdbId.setText(movieSuggestion.getImdbId());
+
+
+        });
+
+        theatreName = root.findViewById(R.id.autocomplete_theatre_name);
+        theatreName.setAdapter(getTheatreArrayAdapter);
+        theatreName.setOnItemClickListener((adapterView, view, i, l) -> {
+            TheatreDTO theatre = (TheatreDTO) adapterView.getAdapter().getItem(i);
+            if(theatre != null) {
+                theatreId.setText(Long.toString(theatre.getTheatreId()));
+            }
+        });
 
 
         date.setOnClickListener(view -> {
@@ -103,7 +145,7 @@ public class AddMovieVisitFragment extends Fragment implements DatePickerDialog.
                     final JSONObject params = new JSONObject();
                     try {
 
-                        params.put("userName", SharedPreferenceHelper.getKey(getActivity(), LoginConstants.USER_ID, LoginConstants.USER_ID));
+                        params.put("userName", loginSharedPref.getString(LoginConstants.USER_ID, LoginConstants.USER_ID));
                         params.put("showTime", showTimeInMilliSeconds);
                         params.put("imdbId", imdbId.getText());
                         params.put("theatreId", theatreId.getText());

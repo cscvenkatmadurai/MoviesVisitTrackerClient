@@ -133,7 +133,7 @@ public class AddTheatreFragment extends Fragment {
                 try {
                     TheatreDTO[] theatreDTOS = GloxeyJsonParser.getInstance().parse(_response, TheatreDTO[].class);
                     theatreAdapter.setTheatresArray(theatreDTOS);
-                    theatreAdapter.notifyDataSetChanged();
+
                 }catch (Exception e) {
                     Log.e(TAG, "onResponse: ", e );
                 }

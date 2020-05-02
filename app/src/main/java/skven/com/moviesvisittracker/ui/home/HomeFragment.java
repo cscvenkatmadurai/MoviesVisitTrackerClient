@@ -19,6 +19,7 @@ import skven.com.moviesvisittracker.R;
 import skven.com.moviesvisittracker.date.DateUtil;
 import skven.com.moviesvisittracker.imdb.autocomplete.ImdbAutoCompleteFetcher;
 
+
 public class HomeFragment extends Fragment implements CustomDateRangeSelectorAlertDialog.CustomDateRangeSelectorDTO {
 
 

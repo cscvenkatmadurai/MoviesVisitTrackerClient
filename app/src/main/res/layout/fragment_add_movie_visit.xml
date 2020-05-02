@@ -10,12 +10,26 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/roboto_mono_thin"
         android:hint="imdbId" />
+
+    <AutoCompleteTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="type movie name"
+        android:id="@+id/autocomplete_movie_name"
+        />
+
     <EditText
         android:id="@+id/edit_text_theatreId"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="theatreId"/>
 
+    <AutoCompleteTextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="type theatre name"
+        android:id="@+id/autocomplete_theatre_name"
+        />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

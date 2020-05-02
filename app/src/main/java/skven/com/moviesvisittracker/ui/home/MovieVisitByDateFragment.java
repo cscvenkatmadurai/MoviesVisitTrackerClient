@@ -17,9 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import skven.com.moviesvisittracker.Application;
 import skven.com.moviesvisittracker.R;
-import skven.com.moviesvisittracker.constants.LoginConstants;
 import skven.com.moviesvisittracker.date.DateUtil;
-import skven.com.moviesvisittracker.helper.SharedPreferenceHelper;
+
 import skven.com.moviesvisittracker.movieVisit.MovieVisitByDateFetcher;
 import skven.com.moviesvisittracker.movieVisit.dao.MovieVisitMini;
 import skven.com.moviesvisittracker.movieVisit.MovieVisitMiniAdapter;

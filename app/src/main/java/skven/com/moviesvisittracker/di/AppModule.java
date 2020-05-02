@@ -9,6 +9,7 @@ import javax.inject.Singleton;
 
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.OkHttpClient;
 import skven.com.moviesvisittracker.constants.LoginConstants;
 
 @Module
@@ -34,5 +35,12 @@ public class AppModule {
     @Named("loginSharedPreference")
     public SharedPreferences getLoginSharedPreference(final Context context) {
         return context.getSharedPreferences(LoginConstants.USER_ID, Context.MODE_PRIVATE);
+    }
+
+
+    @Provides
+    @Singleton
+    public OkHttpClient getOkHttpClient() {
+        return new OkHttpClient();
     }
 }

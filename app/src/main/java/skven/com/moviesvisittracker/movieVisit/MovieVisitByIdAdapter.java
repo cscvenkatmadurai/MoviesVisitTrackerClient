@@ -44,7 +44,7 @@ public class MovieVisitByIdAdapter extends RecyclerView.Adapter<MovieVisitByIdAd
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.id_name.setText(idName + ": " + movieVisitByIds.get(position).getId());
         holder.numberOfMoviesWatched.setText("Number of movies watched: " + movieVisitByIds.get(position).getNumberOfMovieOfMoviesWatched());
-        holder.numberOfMoviesWatched.setText("Number of distinct movies watched: " + movieVisitByIds.get(position).getNumberOfDistinctMoviesWatched());
+        holder.numberOfDistinctMoviesWatched.setText("Number of distinct movies watched: " + movieVisitByIds.get(position).getNumberOfDistinctMoviesWatched());
         MovieVisitMiniAdapter movieVisitMiniAdapter = (MovieVisitMiniAdapter) holder.recyclerView.getAdapter();
         MovieVisitMini[] moviesArray = movieVisitByIds.get(position).getMovieList().toArray(new MovieVisitMini[0]);
         assert movieVisitMiniAdapter != null;
