@@ -49,8 +49,8 @@ public class MovieVisitByIdFragment extends Fragment implements MovieVisitByIdFe
             by = "lang";
 
         } else {
-            startTime = DateUtil.getYearStartInMilliSeconds();
-            endTime = System.currentTimeMillis();
+            startTime = bundle.getLong("startTime");
+            endTime = bundle.getLong("endTime");
             by = bundle.getString("by");
 
         }

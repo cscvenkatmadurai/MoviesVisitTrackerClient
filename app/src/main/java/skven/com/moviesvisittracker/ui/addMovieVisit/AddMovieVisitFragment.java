@@ -22,6 +22,7 @@ import org.json.JSONObject;
 import java.util.Calendar;
 import java.util.HashMap;
 
+
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Qualifier;
@@ -69,6 +70,8 @@ public class AddMovieVisitFragment extends Fragment implements DatePickerDialog.
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
+        AppIdleHistory app;
+
         Log.i(TAG, "onCreateView: ");
         Application.getAppComponent().inject(this);
 

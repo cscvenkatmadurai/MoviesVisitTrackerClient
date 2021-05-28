@@ -1,6 +1,8 @@
 package skven.com.moviesvisittracker.activity;
 
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.util.Log;
 import android.view.Menu;
 
 import com.google.android.material.navigation.NavigationView;
@@ -28,6 +30,7 @@ public class HomeActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.i(TAG, "Elapsed time: " + SystemClock.elapsedRealtime());
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

@@ -17,7 +17,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import skven.com.moviesvisittracker.R;
 import skven.com.moviesvisittracker.date.DateUtil;
-import skven.com.moviesvisittracker.imdb.autocomplete.ImdbAutoCompleteFetcher;
 
 
 public class HomeFragment extends Fragment implements CustomDateRangeSelectorAlertDialog.CustomDateRangeSelectorDTO {
@@ -26,7 +25,9 @@ public class HomeFragment extends Fragment implements CustomDateRangeSelectorAle
     private static final String TAG = "###HomeFragment";
     private MaterialButtonToggleGroup toggleDuration;
     private MaterialButtonToggleGroup toggleBy;
-    private long startTime, endTime;
+    private long startTime = DateUtil.getYearStartInMilliSeconds();
+    private long endTime = System.currentTimeMillis();
+
     private static final String BY_COUNT = "count";
     private static final String BY_DATE = "date";
     private static final String BY_THEATRE = "theatre";
@@ -34,6 +35,8 @@ public class HomeFragment extends Fragment implements CustomDateRangeSelectorAle
 
     private static Map<Integer, String> idToByString;
     private static Map<Integer, Fragment> idStringToFragment;
+    private static long LAST_CLICKED_DURATION_TIME_IN_MILLI_SEC;
+    private static long LAST_CLICKED_BY_TIME_IN_MILLI_SEC;
 
     static {
 
@@ -53,7 +56,7 @@ public class HomeFragment extends Fragment implements CustomDateRangeSelectorAle
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        Log.i(TAG, "onCreateView: called" );
+        Log.i(TAG, "onCreateView: called");
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         toggleDuration = root.findViewById(R.id.toggleDuration);
@@ -64,7 +67,13 @@ public class HomeFragment extends Fragment implements CustomDateRangeSelectorAle
 
 
         toggleDuration.addOnButtonCheckedListener((group, checkedId, isChecked) -> {
-            if(checkedId == R.id.this_month ) {
+            if (System.currentTimeMillis() - LAST_CLICKED_DURATION_TIME_IN_MILLI_SEC < 3000) {
+                LAST_CLICKED_DURATION_TIME_IN_MILLI_SEC = System.currentTimeMillis();
+                return;
+
+            }
+            LAST_CLICKED_DURATION_TIME_IN_MILLI_SEC = System.currentTimeMillis();
+            if (checkedId == R.id.this_month) {
                 Log.d(TAG, "onCreateView: this_month selected");
                 startTime = DateUtil.getMonthStartInMilliSeconds();
                 endTime = System.currentTimeMillis();
@@ -73,7 +82,7 @@ public class HomeFragment extends Fragment implements CustomDateRangeSelectorAle
 
 
             }
-            if(checkedId == R.id.this_year) {
+            if (checkedId == R.id.this_year) {
 
                 startTime = DateUtil.getYearStartInMilliSeconds();
                 endTime = System.currentTimeMillis();
@@ -82,7 +91,7 @@ public class HomeFragment extends Fragment implements CustomDateRangeSelectorAle
 
             }
 
-            if(checkedId == R.id.custom_range) {
+            if (checkedId == R.id.custom_range) {
 
                 Log.d(TAG, "onCreateView: custom_range");
                 openCustomDateRangeSelectAlertDialog();
@@ -94,27 +103,36 @@ public class HomeFragment extends Fragment implements CustomDateRangeSelectorAle
         toggleBy = root.findViewById(R.id.toggleBy);
 
         toggleBy.addOnButtonCheckedListener(((group, checkedId, isChecked) -> {
-            if(R.id.by_date == checkedId) {
+
+
+            if (System.currentTimeMillis() - LAST_CLICKED_BY_TIME_IN_MILLI_SEC < 3000) {
+                LAST_CLICKED_BY_TIME_IN_MILLI_SEC = System.currentTimeMillis();
+                return;
+
+            }
+            LAST_CLICKED_BY_TIME_IN_MILLI_SEC = System.currentTimeMillis();
+
+
+            if (R.id.by_date == checkedId) {
                 createOrReplaceMovieVisitFragment("date", new MovieVisitByDateFragment());
             }
 
 
-            if(R.id.by_lang == checkedId) {
+            if (R.id.by_lang == checkedId) {
 
                 createOrReplaceMovieVisitFragment("lang", new MovieVisitByIdFragment());
 
 
             }
 
-            if(R.id.by_theatre == checkedId) {
+            if (R.id.by_theatre == checkedId) {
                 createOrReplaceMovieVisitFragment("theatre", new MovieVisitByIdFragment());
 
             }
 
-            if(R.id.by_count == checkedId) {
+            if (R.id.by_count == checkedId) {
                 createOrReplaceMovieVisitFragment("count", new MovieVisitByIdFragment());
             }
-
 
 
         }));
@@ -122,21 +140,19 @@ public class HomeFragment extends Fragment implements CustomDateRangeSelectorAle
         createOrReplaceMovieVisitFragment("date", new MovieVisitByDateFragment());
 
 
-
-
         return root;
     }
 
     private void createOrReplaceMovieVisitFragment(final String by, final Fragment fragment) {
-        Log.i(TAG, "createOrReplaceMovieVisitFragment: startTime: " + startTime + "  endTime " + endTime  + "  by: " + by);
+        Log.i(TAG, "createOrReplaceMovieVisitFragment: startTime: " + startTime + "  endTime " + endTime + "  by: " + by);
         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        if(fragmentManager.findFragmentById(R.id.home_recycler_view) == null ) {
+        if (fragmentManager.findFragmentById(R.id.home_recycler_view) == null) {
             Log.i(TAG, "createOrReplaceMovieVisitFragment: adding recyclerview ");
             fragmentTransaction.add(R.id.home_recycler_view, fragment);
 
         } else {
-            Log.i(TAG, "createOrReplaceMovieVisitFragment: replacing recycler view");
+            Log.i(TAG, "createOrReplaceMovieVisitFragment: replacing recycler view: ");
             fragmentTransaction.replace(R.id.home_recycler_view, fragment);
         }
         fragmentTransaction.addToBackStack(null);
@@ -156,7 +172,6 @@ public class HomeFragment extends Fragment implements CustomDateRangeSelectorAle
         alertDialog.setTargetFragment(this, 0);
         alertDialog.show(getFragmentManager(), "CustomerDateRangeSelectorAlertDialog");
     }
-
 
 
     @Override
